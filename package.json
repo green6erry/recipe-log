@@ -1,0 +1,19 @@
+{
+  "name": "recipe-log",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/green6erry/recipe-log.git"
+  },
+  "author": "AGB",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/green6erry/recipe-log/issues"
+  },
+  "homepage": "https://github.com/green6erry/recipe-log#readme"
+}
