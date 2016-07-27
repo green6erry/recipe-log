@@ -15,5 +15,12 @@
   "bugs": {
     "url": "https://github.com/green6erry/recipe-log/issues"
   },
-  "homepage": "https://github.com/green6erry/recipe-log#readme"
+  "homepage": "https://github.com/green6erry/recipe-log#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0"
+  },
+  "dependencies": {
+    "mocha": "^2.5.3"
+  }
 }
