@@ -4,7 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -18,9 +19,13 @@
   "homepage": "https://github.com/green6erry/recipe-log#readme",
   "devDependencies": {
     "chai": "^3.5.0",
-    "chai-http": "^3.0.0"
+    "chai-http": "^3.0.0",
+    "mocha": "^2.5.3"
   },
   "dependencies": {
-    "mocha": "^2.5.3"
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "mocha": "^2.5.3",
+    "mongoose": "^4.5.7"
   }
 }

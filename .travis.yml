@@ -1,0 +1,17 @@
+language: node_js
+node_js: node
+services:
+- mongodb
+addons:
+  apt:
+    sources:
+    - mongodb-3.2-precise
+    packages:
+    - mongodb-org-server
+deploy:
+  provider: heroku
+  api_key:
+    secure: eib0Vexenq/Sj5Z+Cf20HASZRqzPlhTO2d9C5R/Frcjt9ioPEGPAsygJNUmZM224iBLqSO7E2r15xdO+3oZoS8FX5Yez5P/uFdi1OWCKKUb/3y0TfzpgAbrD7XBZrLzQ5qoa1OqPxflEoH5IfNaWc02TDL66XuUflYVu2idlfjz/JgFnL5mnFod+eZnZeLQAyINS2F2oA4HvN+J9ACroGmVbZp2bpKFbAjXGo4E+0WTDJxBxu+VTxeNV1eF9hJdxlBVdql5aiasIP6HGV6Ys07/V6t60UyVEOWsXvXlskI2bSa/f+LTn/WqVH73mEn4U+5acFV41/25q8heQhtCONqhFjBLW80KZi2YwIbpqUuNoY2hr2c2HVctoomOjBzE/PbMy0/3c2ndKCfd537hss+DSnivouFi5KASmkmR/lNSw28P4zG35bVAfbe1Kt1TvhWRLEgZA5bDgnfr4lJt1inrR4PYCnN/NkebAo0Y3MwVpakn/IdpseJTVIjho79YrrLJfq69KsjYm+oNoZgYw51m8LXzgkf163JxUFz2NU7ZOhzjKNrfVt9ZzuDV3HUYkkbcLl9EEp1sPC0qyTQtiao1RSWuFdtzamduR/kxrgDkkjCtK4pC0UF5SsTSRhGeGANGIO3fbytpjAGNy5hhBcqY7HAXd3AJGS/EN2c721OA=
+  app: cryptic-headland-17676
+  on:
+    repo: green6erry/recipe-log
