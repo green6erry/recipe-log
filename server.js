@@ -1,20 +1,24 @@
 //Recipe Log
-var express = require('express');
-var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
-var User = require('./models/user');
-var config = require('./config');
-var jsonParser = bodyParser.json();
 var bcrypt = require('bcrypt');
+var bodyParser = require('body-parser');
+var config = require('./config');
+var express = require('express');
+var jsonParser = bodyParser.json();
+var mongoose = require('mongoose');
+var passport = require('passport');
 
 var app = express();
+var BasicStrategy = require('passport-http').BasicStrategy;
 
 app.use(bodyParser.json());
 app.use(express.static('public'));
 
+//Models
+var User = require('./models/user');
+var Ingredient = require('./models/ingredient');
+var Recipe = require('./models/recipe');
+
 //Protecting the endpoint
-var passport = require('passport');
-var BasicStrategy = require('passport-http').BasicStrategy;
 
 var strategy = new BasicStrategy(function(username, password, callback) {
     User.findOne({
@@ -34,9 +38,7 @@ var strategy = new BasicStrategy(function(username, password, callback) {
         user.validatePassword(password, function(err, isValid) {
             if (err) {
                 return callback(err);
-            }
-
-            if (!isValid) {
+            } if (!isValid) {
                 return callback(null, false, {
                     message: 'Incorrect password.'
                 });
@@ -75,8 +77,6 @@ if (require.main === module) {
 exports.app = app;
 exports.runServer = runServer;
 
-var Ingredient = require('./models/ingredient');
-var Recipe = require('./models/recipe');
 
 
 app.get('/ingredient', function(req, res) {
@@ -180,13 +180,10 @@ app.delete('/ingredient/:id', function(req, res) {
     });
 });
 
-app.use('*', function(req, res) {
-    res.status(404).json({
-        message: 'Not Found'
-    });
-});
 
 
+
+//User server
 app.post('/users', jsonParser, function(req, res) {
     if (!req.body) {
         return res.status(400).json({
@@ -238,7 +235,7 @@ app.post('/users', jsonParser, function(req, res) {
         });
     }
 
-    
+
     //Hashing the password
     bcrypt.genSalt(10, function(err, salt) {
         if (err) {
@@ -281,6 +278,12 @@ app.get('/hidden', passport.authenticate('basic', {session: false}), function(re
     });
 });
 
-mongoose.connect('mongodb://localhost/auth').then(function() {
-    app.listen(8080);
+app.use('/*', function(req, res) {
+    res.status(404).json({
+        message: 'Not Found'
+    });
 });
+
+// mongoose.connect('mongodb://localhost/auth').then(function() {
+//     app.listen(8080);
+// });

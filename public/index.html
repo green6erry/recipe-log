@@ -81,7 +81,7 @@ var RecipeList = function() {
     this.itemList = $('#item-list');
     this.itemListTemplate = Handlebars.compile($("#item-list-template").html());
 
-    this.input = $('#item-input');
+    this.input = $('#ingredient-name-input');
     this.input.keydown(this.onAddInputKeydown.bind(this));
 
     this.main = $('#main');
@@ -215,8 +215,12 @@ $(document).ready(function() {
     <body>
         <div id="main">
             <h1>Shopping List</h1>
-            <input type="text" placeholder="Add an item" id="item-input"
+            <input type="text" placeholder="Add an ingredient" id="ingredient-name-input"
                 autocomplete="off" autofocus>
+            <!--<input type="text" placeholder="Calories per" id="ingredient-cal-input"-->
+            <!--    autocomplete="off" autofocus>-->
+            <!--<input type="text" placeholder="Measurement" id="ingredient-measure-input"-->
+            <!--    autocomplete="off" autofocus>-->
             <ul id="item-list">
             </ul>
             <p class="light">Double-click to edit recipes</p>
@@ -240,6 +244,9 @@ $(document).ready(function() {
                 {{/each}}
             </ul>
         </script>
+        
 
     </body>
 </html>
+
+
