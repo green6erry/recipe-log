@@ -250,57 +250,55 @@ app.post('/users', jsonParser, function(req, res) {
     });
 });
 
-app.put('/users/:id', function(req, res) {
-    User.update({ 
-        _id: req.params.id
-    }, {password: req.body.password}, function(err, ingredient) {
-        if (err) {
-            return res.status(500).json({
-                message: 'Internal Server Error'
-            });
-        }
+// app.put('/users/:id', function(req, res) {
+//     User.update({ 
+//         _id: req.params.id
+//     }, {password: req.body.password}, function(err, ingredient) {
+//         if (err) {
+//             return res.status(500).json({
+//                 message: 'Internal Server Error'
+//             });
+//         }
         
-    var password = req.body.password;
-    password = password.trim();
+//     var password = req.body.password;
+//     password = password.trim();
 
-    if (typeof password !== 'string') {
-        return res.status(422).json({
-            message: 'Incorrect field type: password'
-        });
-    }
+//     if (typeof password !== 'string') {
+//         return res.status(422).json({
+//             message: 'Incorrect field type: password'
+//         });
+//     }
     
-    if (password === '') {
-        return res.status(422).json({
-            message: 'Incorrect field length: password'
-        });
-    }
+//     if (password === '') {
+//         return res.status(422).json({
+//             message: 'Incorrect field length: password'
+//         });
+//     }
     
-    //Hashing the password
-    bcrypt.genSalt(10, function(err, salt) {
-        if (err) {
-            return res.status(500).json({
-                message: '2 Internal server error'
-            });
-        }
+//     //Hashing the password
+//     bcrypt.genSalt(10, function(err, salt) {
+//         if (err) {
+//             return res.status(500).json({
+//                 message: '2 Internal server error'
+//             });
+//         }
 
-        bcrypt.hash(password, salt, function(err, hash) {
-            if (err) {
-                return res.status(500).json({
-                    message: '3 Internal server error'
-                });
-            }
-            
-        password = hash;
-        
-        password.save(function(err) {
-            if (err) {
-                return res.status(500).json({
-                    message: '4 Internal server error'
-                });
-            }
-        res.status(200).json({});
-    });
-});
+//         bcrypt.hash(password, salt, function(err, hash) {
+//             if (err) {
+//                 return res.status(500).json({
+//                     message: '3 Internal server error'
+//                 });
+//             }
+//         password = hash;
+//         password.save(function(err) {
+//             if (err) {
+//                 return res.status(500).json({
+//                     message: '4 Internal server error'
+//                 });
+//             }
+//         res.status(200).json({});
+//     });
+// });
 
 
 app.get('/users', function(req, res) {
