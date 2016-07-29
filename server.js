@@ -10,6 +10,9 @@ var passport = require('passport');
 var app = express();
 var BasicStrategy = require('passport-http').BasicStrategy;
 
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 app.use(bodyParser.json());
 app.use(express.static('public'));
 
@@ -51,31 +54,8 @@ var strategy = new BasicStrategy(function(username, password, callback) {
 passport.use(strategy);
 //--end--
 
-var runServer = function(callback) {
-    mongoose.connect(config.DATABASE_URL, function(err) {
-        if (err && callback) {
-            return callback(err);
-        }
 
-        app.listen(config.PORT, function() {
-            console.log('Listening on localhost:' + config.PORT);
-            if (callback) {
-                callback();
-            }
-        });
-    });
-};
 
-if (require.main === module) {
-    runServer(function(err) {
-        if (err) {
-            console.error(err);
-        }
-    });
-};
-
-exports.app = app;
-exports.runServer = runServer;
 
 
 
@@ -103,10 +83,12 @@ app.get('/recipe', function(req, res) {
 
 
 app.post('/ingredient', function(req, res) {
+    console.log('req body', req.body);
     Ingredient.create({
         name: req.body.name
     }, function(err, ingredient) {
         if (err) {
+            console.log('post ingredient err', err);
             return res.status(500).json({
                 message: 'Internal Server Error'
             });
@@ -184,7 +166,11 @@ app.delete('/ingredient/:id', function(req, res) {
 
 
 //User server
+
+
 app.post('/users', jsonParser, function(req, res) {
+    var username = req.body.username;
+    username = username.trim();
     if (!req.body) {
         return res.status(400).json({
             message: "No request body"
@@ -197,15 +183,11 @@ app.post('/users', jsonParser, function(req, res) {
         });
     }
 
-    var username = req.body.username;
-
     if (typeof username !== 'string') {
         return res.status(422).json({
             message: 'Incorrect field type: username'
         });
     }
-
-    username = username.trim();
 
     if (username === '') {
         return res.status(422).json({
@@ -234,7 +216,6 @@ app.post('/users', jsonParser, function(req, res) {
             message: 'Incorrect field length: password'
         });
     }
-
 
     //Hashing the password
     bcrypt.genSalt(10, function(err, salt) {
@@ -269,6 +250,83 @@ app.post('/users', jsonParser, function(req, res) {
     });
 });
 
+app.put('/users/:id', function(req, res) {
+    User.update({ 
+        _id: req.params.id
+    }, {password: req.body.password}, function(err, ingredient) {
+        if (err) {
+            return res.status(500).json({
+                message: 'Internal Server Error'
+            });
+        }
+        
+    var password = req.body.password;
+    password = password.trim();
+
+    if (typeof password !== 'string') {
+        return res.status(422).json({
+            message: 'Incorrect field type: password'
+        });
+    }
+    
+    if (password === '') {
+        return res.status(422).json({
+            message: 'Incorrect field length: password'
+        });
+    }
+    
+    //Hashing the password
+    bcrypt.genSalt(10, function(err, salt) {
+        if (err) {
+            return res.status(500).json({
+                message: '2 Internal server error'
+            });
+        }
+
+        bcrypt.hash(password, salt, function(err, hash) {
+            if (err) {
+                return res.status(500).json({
+                    message: '3 Internal server error'
+                });
+            }
+            
+        password = hash;
+        
+        password.save(function(err) {
+            if (err) {
+                return res.status(500).json({
+                    message: '4 Internal server error'
+                });
+            }
+        res.status(200).json({});
+    });
+});
+
+
+app.get('/users', function(req, res) {
+    User.find(function(err, users) {
+        if (err) {
+            return res.status(500).json({
+                message: 'Internal Server Error'
+            });
+        }
+        res.json(users);
+    });
+});
+
+app.delete('/users/:id', function(req, res) {
+    User.remove({
+        _id: req.params.id
+    }, function(err, user) {
+        if (err) {
+            return res.status(500).json({
+                message: 'Internal Server Error'
+            });
+        }
+        res.status(200).json(user);
+    });
+});
+
 app.use(passport.initialize());
 
 
@@ -284,6 +342,12 @@ app.use('/*', function(req, res) {
     });
 });
 
-// mongoose.connect('mongodb://localhost/auth').then(function() {
-//     app.listen(8080);
-// });
+mongoose.connect(config.DATABASE_URL, function(err) {
+    if (err) {
+        console.log('mongoose error', err);
+    }
+
+    app.listen(config.PORT, function() {
+        console.log('Listening on localhost:' + config.PORT);
+    });
+});
