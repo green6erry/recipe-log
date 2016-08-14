@@ -1,21 +1,41 @@
 {
   "name": "recipe-log",
   "version": "1.0.0",
+<<<<<<< HEAD
+  "description": "Recipe manipulator! In a good way.",
+  "main": "index.jsx",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+=======
   "description": "",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
+>>>>>>> c4d35f75d017a2889b3d507f9bbc13d975158686
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/green6erry/recipe-log.git"
   },
+<<<<<<< HEAD
+  "keywords": [
+    "React",
+    "thinkful",
+    "recipe",
+    "fun",
+    "fuuun"
+  ],
+=======
+>>>>>>> c4d35f75d017a2889b3d507f9bbc13d975158686
   "author": "AGB",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/green6erry/recipe-log/issues"
   },
+<<<<<<< HEAD
+  "homepage": "https://github.com/green6erry/recipe-log#readme"
+=======
   "homepage": "https://github.com/green6erry/recipe-log#readme",
   "devDependencies": {
     "chai": "^3.5.0",
@@ -28,4 +48,5 @@
     "mocha": "^2.5.3",
     "mongoose": "^4.5.7"
   }
+>>>>>>> c4d35f75d017a2889b3d507f9bbc13d975158686
 }
